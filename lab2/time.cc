@@ -59,28 +59,30 @@ std::string to_string(Time const& t, bool const& in_12_format)
     return os.str();
 }
 
-Time operator+(Time t, int N)
+
+
+Time operator+(Time t, int const& N)
 {
-    Time result{};
+    Time result{t};
     
     result.sec = t.sec + N;
+    
     if (result.sec >= 60)
     {
 	result.min += result.sec / 60;
 	result.sec %= 60;
     }
     
-    result.min += t.min;
-    if (result.sec >= 60)
+    if (result.min >= 60)
     {
-	result.min += result.sec / 60;
-	result.sec %= 60;
+	result.hrs += result.min / 60;
+	result.min %= 60;
     }
     
-    result.sec = t.sec + N;
-    if (result.sec >= 60)
+    if (result.hrs >= 24)
     {
-	result.min += result.sec / 60;
-	result.sec %= 60;
+	result.hrs %= 24;
     }
+
+    return result;
 }
