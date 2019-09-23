@@ -1,0 +1,1 @@
+In this laboration you should learn how to write a basic C++ program that can open a text file, read from the text file and count the number of letters for each word. You shall also calculate the average length of all the words in the text file.
