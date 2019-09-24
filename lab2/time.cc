@@ -59,9 +59,17 @@ std::string to_string(Time const& t, bool const& in_12_format)
     return os.str();
 }
 
+bool operator==(Time const& t1, Time const& t2)
+{
+    return (t1.hrs == t2.hrs) and (t1.min == t2.min) and (t1.sec == t2.sec);
+}
 
+bool operator!=(Time const& t1, Time const& t2)
+{
+    return not(t1 == t2);
+}
 
-Time operator+(Time t, int const& N)
+Time operator+(Time const& t, int const& N)
 {
     Time result{t};
     
@@ -85,4 +93,57 @@ Time operator+(Time t, int const& N)
     }
 
     return result;
+}
+
+Time operator-(Time const& t, int const& N)
+{
+    Time result{t};
+    
+    result.sec = t.sec - N;
+    
+    if (result.sec < 0)
+    {
+	result.min -= -result.sec / 60 + 1;
+	result.sec = ((result.sec % 60) + 60) % 60;
+    }
+    
+    if (result.min < 0)
+    {
+	result.hrs -= -result.min / 60 + 1;
+	result.min = ((result.min % 60) + 60) % 60;
+    }
+    
+    if (result.hrs < 0)
+    {
+	result.hrs = ((result.hrs % 24) + 24) % 24;
+    }
+    
+    return result;
+}
+
+
+Time& operator++(Time& t)
+{
+    t = t + 1;
+    return t;
+}
+
+Time operator++(Time& t, int)
+{
+    Time old{t};
+    ++t;
+    return old;
+}
+
+Time& operator--(Time& t)
+{
+    t = t - 1;
+    return t;
+}
+
+Time operator--(Time& t, int)
+{
+    Time old{t};
+    --t;
+    return old;
 }
