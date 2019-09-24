@@ -39,7 +39,7 @@ int main()
 	error = (last_price <= first_price);
 	if (error)
 	{
-	    cout << "ERROR: Last price must be greater than first_price price" << endl;
+	    cout << "ERROR: Last price must be greater than first price" << endl;
 	}
     }
     while (error);
