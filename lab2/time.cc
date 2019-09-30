@@ -176,3 +176,17 @@ std::ostream& operator<<(std::ostream& os, Time const& t)
     os << to_string(t);
     return os;
 }
+
+std::istream& operator>>(std::istream& is, Time & t)
+{
+    is >> t.hrs;
+    is.ignore(1, ':');
+    is >> t.min;
+    is.ignore(1, ':');
+    is >> t.sec;
+    if (not is_valid(t))
+    {
+	is.setstate(std::ios_base::failbit);
+    }
+    return is;
+}

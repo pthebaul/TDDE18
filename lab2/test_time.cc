@@ -110,4 +110,15 @@ TEST_CASE("Testing time struct", "Test de description")
   std::ostringstream os2{};
   os2 << midnight;
   CHECK(os2.str() == "00:00:00");
+
+  //Testing ">>"
+  std::istringstream is1{"08:47:32"};
+  Time t_is1{};
+  is1 >> t_is1;
+  CHECK(to_string(t_is1) == "08:47:32");
+  
+  std::istringstream is2{"64:47:32"};
+  Time t_is2{};
+  is2 >> t_is2;
+  CHECK(is2.fail());
 }
