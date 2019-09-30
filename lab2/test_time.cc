@@ -1,5 +1,6 @@
 #include "time.h"
 #include "catch.hpp"
+#include <sstream>
 
 TEST_CASE("Testing time struct", "Test de description")
 {
@@ -101,4 +102,12 @@ TEST_CASE("Testing time struct", "Test de description")
   CHECK(midnight <= afternoon);
   CHECK_FALSE(very_late <= afternoon);
   CHECK(afternoon <= afternoon);
+
+  //Testing "<<"
+  std::ostringstream os1{};
+  os1 << afternoon;
+  CHECK(os1.str() == "14:53:10");
+  std::ostringstream os2{};
+  os2 << midnight;
+  CHECK(os2.str() == "00:00:00");
 }

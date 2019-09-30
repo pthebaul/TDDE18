@@ -27,4 +27,6 @@ Time operator++(Time& t, int);
 Time& operator--(Time& t);
 Time operator--(Time& t, int);
 
+std::ostream& operator<<(std::ostream& os, Time const& t);
+
 std::string to_string(Time const& t, bool const& in_12_format = false);

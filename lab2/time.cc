@@ -170,3 +170,9 @@ Time operator--(Time& t, int)
     --t;
     return old;
 }
+
+std::ostream& operator<<(std::ostream& os, Time const& t)
+{
+    os << to_string(t);
+    return os;
+}
