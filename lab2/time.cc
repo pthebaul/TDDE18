@@ -69,6 +69,29 @@ bool operator!=(Time const& t1, Time const& t2)
     return not(t1 == t2);
 }
 
+bool operator>(Time const& t1, Time const& t2)
+{
+    return (t1.hrs > t2.hrs)
+	or (t1.hrs == t2.hrs and t1.min > t2.min)
+	or (t1.hrs == t2.hrs and t1.min == t2.min and t1.sec > t2.sec);
+}
+
+bool operator>=(Time const& t1, Time const& t2)
+{
+    return (t1 > t2) or (t1 == t2);
+}
+
+bool operator<(Time const& t1, Time const& t2)
+{
+    return (t2 > t1);
+}
+
+bool operator<=(Time const& t1, Time const& t2)
+{
+    return (t1 < t2) or (t1 == t2);
+}
+
+
 Time operator+(Time const& t, int const& N)
 {
     Time result{t};

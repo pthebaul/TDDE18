@@ -26,6 +26,7 @@ TEST_CASE("Testing time struct", "Test de description")
   //Testing "=="
   CHECK(midnight == midnight);
   CHECK_FALSE(midnight == afternoon);
+  //Testing "!="
   CHECK(midnight != very_late);
   CHECK_FALSE(midnight != midnight);
   
@@ -85,4 +86,19 @@ TEST_CASE("Testing time struct", "Test de description")
   t = very_late;
   CHECK(to_string(--t) == "23:59:58");
   CHECK(to_string(t) == "23:59:58");
+
+  //Testing ">"
+  CHECK(afternoon > midnight);
+  CHECK_FALSE(afternoon > very_late);
+  //Testing ">="
+  CHECK(afternoon >= midnight);
+  CHECK_FALSE(afternoon >= very_late);
+  CHECK(afternoon >= afternoon);
+  //Testing "<"
+  CHECK(midnight < afternoon);
+  CHECK_FALSE(very_late < afternoon);
+  //Testing "<="
+  CHECK(midnight <= afternoon);
+  CHECK_FALSE(very_late <= afternoon);
+  CHECK(afternoon <= afternoon);
 }
