@@ -19,6 +19,7 @@ bool is_am(Time const& t)
 std::string to_string(Time const& t, bool const& in_12_format)
 {
     std::ostringstream os{};
+    // setfill is now used once 
     os << std::setw(2) << std::setfill('0');
     if (in_12_format)
     {
@@ -40,8 +41,8 @@ std::string to_string(Time const& t, bool const& in_12_format)
 	os << t.hrs;
     }
     
-    os << ":" << std::setw(2) << std::setfill('0') << t.min << ":"
-       << std::setw(2) << std::setfill('0') << t.sec;
+    os << ":" << std::setw(2) << t.min << ":"
+       << std::setw(2) << t.sec;
     if (in_12_format)
     {
 	os << "[";
@@ -59,6 +60,7 @@ std::string to_string(Time const& t, bool const& in_12_format)
     return os.str();
 }
 
+//Comment: We prefer to use !, &&, || instead of not, and, or.
 bool operator==(Time const& t1, Time const& t2)
 {
     return (t1.hrs == t2.hrs) and (t1.min == t2.min) and (t1.sec == t2.sec);

@@ -1,6 +1,6 @@
 #include "time.h"
 #include "catch.hpp"
-#include <sstream>
+// sstream is already included in time.cc, so we do not need to include it here
 
 TEST_CASE("Testing time struct", "Test de description")
 {
@@ -9,8 +9,9 @@ TEST_CASE("Testing time struct", "Test de description")
   REQUIRE(is_valid(valid_time));
   REQUIRE_FALSE(is_valid(invalid_time));
 
-  Time const midnight{00, 00, 00};
-  Time const single_digits{01, 02, 03};
+  // Changed the way of declaring ints, all cases
+  Time const midnight{0, 0, 0};
+  Time const single_digits{1, 2, 3};
   Time const afternoon{14, 53, 10};
   Time const very_late{23, 59, 59};
 
@@ -32,15 +33,15 @@ TEST_CASE("Testing time struct", "Test de description")
   CHECK_FALSE(midnight != midnight);
   
   //Testing "+"
-  Time const midnight_plus_12{00, 00, 12};
+  Time const midnight_plus_12{0, 0, 12};
   REQUIRE(is_valid(midnight + 12));
   CHECK(midnight + 12 == midnight_plus_12);
   
-  Time const verylate_plus_15{00, 00, 14};
+  Time const verylate_plus_15{0, 0, 14};
   REQUIRE(is_valid(very_late + 15));
   CHECK(very_late + 15 == verylate_plus_15);
   
-  Time const afternoon_plus_50{14, 54, 00};
+  Time const afternoon_plus_50{14, 54, 0};
   REQUIRE(is_valid(afternoon + 50));
   CHECK(afternoon + 50 == afternoon_plus_50);
   

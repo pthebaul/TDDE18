@@ -1,3 +1,4 @@
+#pragma once // Header guard added
 #include <string>
 
 struct Time
