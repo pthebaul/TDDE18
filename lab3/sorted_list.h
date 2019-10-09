@@ -3,13 +3,16 @@
 class Sorted_List
 {
 public:
-    bool is_empty();
+    bool is_empty() const;
     int size{0};
     
     std::string to_string();
     void add(int const& new_data);
     void rm (int const& target);
-    
+
+    Sorted_List();
+    Sorted_List(Sorted_List const& other);
+    ~Sorted_List();
 private:
     struct Node
     {

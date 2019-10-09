@@ -2,7 +2,7 @@
 #include <sstream>
 #include <typeinfo>
 
-bool Sorted_List::is_empty()
+bool Sorted_List::is_empty() const
 {
     return this->first == nullptr;
 }
@@ -71,9 +71,10 @@ void Sorted_List::Node::add(int const& new_data)
 
 void Sorted_List::rm(int const& target)
 {
+    std::out_of_range error{"Sorted_List::rm: Target not found"};
     if ((this->is_empty()) or (target < this->first->data))
     {
-	throw std::out_of_range("Target to remove not found in list");
+	throw error;
     }
     else if (target == this->first->data)
     {
@@ -92,7 +93,7 @@ void Sorted_List::rm(int const& target)
 
 	if ((ptr->next == nullptr) or (target < ptr->next->data))
 	{
-	    throw std::out_of_range("Target to remove not found in list");
+	    throw error;
 	}
 	else // target == ptr->next->data
 	{
@@ -101,5 +102,35 @@ void Sorted_List::rm(int const& target)
 	    delete tmp;
 	    this->size--;
 	}
+    }
+}
+
+Sorted_List::Sorted_List()
+{
+    this->first = nullptr;
+}
+
+Sorted_List::Sorted_List(Sorted_List const& other)
+{
+    if (other.is_empty())
+    {
+	// Nothing to do
+    }
+    else
+    {
+	Node* ptr = other.first;
+	while (ptr != nullptr)
+	{
+	    this->add(ptr->data);
+	    ptr = ptr->next;
+	}
+    }
+}
+
+Sorted_List::~Sorted_List()
+{
+    while (not this->is_empty())
+    {
+	this->rm(this->first->data);
     }
 }
