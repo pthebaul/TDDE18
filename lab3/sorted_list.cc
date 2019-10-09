@@ -38,6 +38,7 @@ std::string Sorted_List::Node::to_string()
 
 void Sorted_List::add(int const& new_data)
 {
+    this->size++;
     if (this->is_empty())
     {
 	this->first = new Node{new_data};
