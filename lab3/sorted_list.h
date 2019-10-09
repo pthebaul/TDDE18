@@ -8,11 +8,11 @@ public:
     
     std::string to_string();
     void add(int const& new_data);
+    void rm (int const& target);
     
 private:
     struct Node
     {
-    public:
 	std::string to_string();
 	void add(int const& new_data);
 	

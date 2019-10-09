@@ -68,3 +68,38 @@ void Sorted_List::Node::add(int const& new_data)
 	this->next->add(new_data);
     }
 }
+
+void Sorted_List::rm(int const& target)
+{
+    if ((this->is_empty()) or (target < this->first->data))
+    {
+	throw std::out_of_range("Target to remove not found in list");
+    }
+    else if (target == this->first->data)
+    {
+	Node* tmp{this->first};
+	this->first = this->first->next;
+	delete tmp;
+	this->size--;
+    }
+    else // target > this->first->data
+    {
+	Node* ptr{this->first};
+	while ((ptr->next != nullptr) and (target > ptr->next->data))
+	{
+	    ptr = ptr->next;
+	}
+
+	if ((ptr->next == nullptr) or (target < ptr->next->data))
+	{
+	    throw std::out_of_range("Target to remove not found in list");
+	}
+	else // target == ptr->next->data
+	{
+	    Node* tmp{ptr->next};
+	    ptr->next = ptr->next->next;
+	    delete tmp;
+	    this->size--;
+	}
+    }
+}
