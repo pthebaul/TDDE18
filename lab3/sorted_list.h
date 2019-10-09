@@ -12,6 +12,7 @@ public:
 private:
     struct Node
     {
+    public:
 	std::string to_string();
 	void add(int const& new_data);
 	

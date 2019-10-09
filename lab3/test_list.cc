@@ -23,7 +23,7 @@ TEST_CASE("Insert some numbers into an empty list and printing")
     
     l.add(3);
     REQUIRE(l.to_string() == "3->5->nullptr");
-    
+
     l.add(9);
     REQUIRE(l.to_string() == "3->5->9->nullptr");
     
