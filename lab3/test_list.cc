@@ -69,32 +69,60 @@ TEST_CASE("Sorted_List::rm")
     REQUIRE(l.size == 0);
 }
 
-Sorted_List gen_list()
+Sorted_List gen_list(bool pair)
 {
     Sorted_List l1{};
-    l1.add(2);
-    l1.add(3);
-    l1.add(4);
-    l1.add(1);
+    if (pair)
+    {
+	l1.add(420);
+	l1.add(42);
+    }
+    else
+    {
+	l1.add(69);
+	l1.add(21);
+    }
     return l1;
 }
 
-TEST_CASE("Copies, assignment")
+TEST_CASE("Copy constructor")
 {
     Sorted_List l1{};
-    l1.add(5);
-    l1.add(3);
-    l1.add(9);
-    l1.add(7);
+    l1.add(1);
+    l1.add(2);
 
     Sorted_List l2{l1};
-    l1.rm(5);
-    REQUIRE(l2.to_string() == "3->5->7->9->nullptr");
+    l1.rm(1);
+    REQUIRE(l2.to_string() == "1->2->nullptr");
+}
 
-    Sorted_List l3{gen_list()};
-    REQUIRE(l3.to_string() == "1->2->3->4->nullptr");
+TEST_CASE("Move constructor")
+{
+    Sorted_List l{gen_list(true)};
+    REQUIRE(l.to_string() == "42->420->nullptr");
+}
 
-    l3 = l2;
-    l2.rm(3);
-    REQUIRE(l3.to_string() == "3->5->7->9->nullptr");
+TEST_CASE("Copy assignment")
+{
+    Sorted_List l1{};
+    l1.add(3);
+    l1.add(4);
+
+    Sorted_List l2{};
+    l2.add(5);
+    l2.add(6);
+
+    l2 = l1;
+    l1.rm(3);
+    REQUIRE(l2.to_string() == "3->4->nullptr");
+}
+
+TEST_CASE("Move assignment")
+{
+    Sorted_List l{};
+    l.add(7);
+    l.add(8);
+    
+    l = gen_list(false);
+    REQUIRE(l.to_string() == "21->69->nullptr");
 }

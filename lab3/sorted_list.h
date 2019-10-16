@@ -6,7 +6,7 @@ public:
     bool is_empty() const;
     int size{0};
     
-    std::string to_string();
+    std::string to_string() const;
     void add(int const& new_data);
     void rm (int const& target);
 
@@ -14,11 +14,12 @@ public:
     Sorted_List(Sorted_List const& other);
     Sorted_List(Sorted_List&& other);
     Sorted_List& operator=(Sorted_List const& other);
+    Sorted_List& operator=(Sorted_List&& other);
     ~Sorted_List();
 private:
     struct Node
     {
-	std::string to_string();
+	std::string to_string() const;
 	void add(int const& new_data);
 	
 	int data{};

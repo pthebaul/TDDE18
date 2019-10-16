@@ -1,13 +1,13 @@
 #include "sorted_list.h"
 #include <sstream>
-#include <typeinfo>
+#include <iostream>
 
 bool Sorted_List::is_empty() const
 {
     return this->first == nullptr;
 }
 
-std::string Sorted_List::to_string()
+std::string Sorted_List::to_string() const
 {
     std::ostringstream os{};
     if (this->is_empty())
@@ -21,7 +21,7 @@ std::string Sorted_List::to_string()
     return os.str();
 }
 
-std::string Sorted_List::Node::to_string()
+std::string Sorted_List::Node::to_string() const
 {
     std::ostringstream os{};
     os << this->data << "->";
@@ -112,6 +112,7 @@ Sorted_List::Sorted_List()
 
 Sorted_List::Sorted_List(Sorted_List const& other)
 {
+    std::cout << "Copy constructor called. Copying " << other.to_string() << std::endl;
     if (other.is_empty())
     {
 	// Nothing to do
@@ -129,19 +130,23 @@ Sorted_List::Sorted_List(Sorted_List const& other)
 
 Sorted_List::Sorted_List(Sorted_List&& other)
 {
+    std::cout << "Move constructor called. Moving " << other.to_string() << std::endl;
     this->first = other.first;
     other.first = nullptr;
 }
 
 Sorted_List& Sorted_List::operator=(Sorted_List const& other)
 {
+    std::cout << "Copy assignment called. Copying " << other.to_string() << std::endl;
     Sorted_List tmp{other};
-    while (not this->is_empty())
-    {
-	this->rm(this->first->data);
-    }
-    this->first = tmp.first;
-    tmp.first = nullptr;
+    std::swap(first, tmp.first);
+    return *this;
+}
+
+Sorted_List& Sorted_List::operator=(Sorted_List&& other)
+{
+    std::cout << "Move assignment called. Moving " << other.to_string() << std::endl;
+    std::swap(first, other.first);
     return *this;
 }
 
