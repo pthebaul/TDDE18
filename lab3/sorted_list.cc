@@ -133,6 +133,18 @@ Sorted_List::Sorted_List(Sorted_List&& other)
     other.first = nullptr;
 }
 
+Sorted_List& Sorted_List::operator=(Sorted_List const& other)
+{
+    Sorted_List tmp{other};
+    while (not this->is_empty())
+    {
+	this->rm(this->first->data);
+    }
+    this->first = tmp.first;
+    tmp.first = nullptr;
+    return *this;
+}
+
 Sorted_List::~Sorted_List()
 {
     while (not this->is_empty())

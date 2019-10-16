@@ -72,10 +72,10 @@ TEST_CASE("Sorted_List::rm")
 Sorted_List gen_list()
 {
     Sorted_List l1{};
-    l1.add(5);
+    l1.add(2);
     l1.add(3);
-    l1.add(9);
-    l1.add(7);
+    l1.add(4);
+    l1.add(1);
     return l1;
 }
 
@@ -92,6 +92,9 @@ TEST_CASE("Copies, assignment")
     REQUIRE(l2.to_string() == "3->5->7->9->nullptr");
 
     Sorted_List l3{gen_list()};
+    REQUIRE(l3.to_string() == "1->2->3->4->nullptr");
+
+    l3 = l2;
+    l2.rm(3);
     REQUIRE(l3.to_string() == "3->5->7->9->nullptr");
-    
 }
