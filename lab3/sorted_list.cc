@@ -127,6 +127,12 @@ Sorted_List::Sorted_List(Sorted_List const& other)
     }
 }
 
+Sorted_List::Sorted_List(Sorted_List&& other)
+{
+    this->first = other.first;
+    other.first = nullptr;
+}
+
 Sorted_List::~Sorted_List()
 {
     while (not this->is_empty())

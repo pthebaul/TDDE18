@@ -12,6 +12,7 @@ public:
 
     Sorted_List();
     Sorted_List(Sorted_List const& other);
+    Sorted_List(Sorted_List&& other);
     ~Sorted_List();
 private:
     struct Node
