@@ -37,21 +37,29 @@ TEST_CASE("Inserting some numbers into an empty list and printing it")
     REQUIRE(l.size == 4);
 }
 
-TEST_CASE("Sorted_List::rm")
+TEST_CASE("Sorted_List::rm and Sorted_List::at")
 {
     Sorted_List l{};
+    REQUIRE_THROWS_AS(l.at(4), std::out_of_range);
     REQUIRE_THROWS_AS(l.rm(420), std::out_of_range);
     
     l.add(5);
     l.add(3);
     l.add(9);
     l.add(7);
+
+    REQUIRE(l.at(0) == 3);
+    REQUIRE(l.at(2) == 7);
+    REQUIRE_THROWS_AS(l.at(4), std::out_of_range);
+    REQUIRE_THROWS_AS(l.at(-1), std::out_of_range);
     
     REQUIRE_THROWS_AS(l.rm(6), std::out_of_range);
 
     l.rm(5);
     REQUIRE(l.to_string() == "3->7->9->nullptr");
     REQUIRE(l.size == 3);
+    
+    REQUIRE(l.at(2) == 9);
 
     REQUIRE_THROWS_AS(l.rm(5), std::out_of_range);
     
@@ -69,10 +77,10 @@ TEST_CASE("Sorted_List::rm")
     REQUIRE(l.size == 0);
 }
 
-Sorted_List gen_list(bool pair)
+Sorted_List gen_list(bool even)
 {
     Sorted_List l1{};
-    if (pair)
+    if (even)
     {
 	l1.add(420);
 	l1.add(42);
@@ -93,12 +101,13 @@ TEST_CASE("Copy constructor")
 
     Sorted_List l2{l1};
     l1.rm(1);
+    
     REQUIRE(l2.to_string() == "1->2->nullptr");
 }
 
 TEST_CASE("Move constructor")
 {
-    Sorted_List l{gen_list(true)};
+    Sorted_List l = gen_list(true);
     REQUIRE(l.to_string() == "42->420->nullptr");
 }
 

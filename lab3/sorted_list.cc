@@ -4,19 +4,19 @@
 
 bool Sorted_List::is_empty() const
 {
-    return this->first == nullptr;
+    return first == nullptr;
 }
 
 std::string Sorted_List::to_string() const
 {
     std::ostringstream os{};
-    if (this->is_empty())
+    if (is_empty())
     {
 	os << "nullptr";
     }
     else
     {
-	os << this->first->to_string();
+	os << first->to_string();
     }
     return os.str();
 }
@@ -24,74 +24,74 @@ std::string Sorted_List::to_string() const
 std::string Sorted_List::Node::to_string() const
 {
     std::ostringstream os{};
-    os << this->data << "->";
-    if (this->next == nullptr)
+    os << data << "->";
+    if (next == nullptr)
     {
 	os << "nullptr";
     }
     else
     {
-	os << this->next->to_string();
+	os << next->to_string();
     }
     return os.str();
 }
 
-void Sorted_List::add(int const& new_data)
+void Sorted_List::add(int new_data)
 {
-    this->size++;
-    if (this->is_empty())
+    ++size;
+    if (is_empty())
     {
-	this->first = new Node{new_data};
+	first = new Node{new_data};
     }
-    else if (new_data < this->first->data)
+    else if (new_data < first->data)
     {
-	this->first = new Node{new_data, this->first};
+	first = new Node{new_data, first};
     }
     else
     {
-	this->first->add(new_data);
+	first->add(new_data);
     }
 }
 
-void Sorted_List::Node::add(int const& new_data)
+void Sorted_List::Node::add(int new_data)
 {
-    if (this->next == nullptr)
+    if (next == nullptr)
     {
-	this->next = new Node{new_data};
+	next = new Node{new_data};
     }
-    else if (new_data < this->next->data)
+    else if (new_data < next->data)
     {
-	this->next = new Node{new_data, this->next};
+	next = new Node{new_data, next};
     }
     else
     {
-	this->next->add(new_data);
+	next->add(new_data);
     }
 }
 
-void Sorted_List::rm(int const& target)
+void Sorted_List::rm(int target)
 {
     std::out_of_range error{"Sorted_List::rm: Target not found"};
-    if ((this->is_empty()) or (target < this->first->data))
+    if ((is_empty()) || (target < first->data))
     {
 	throw error;
     }
-    else if (target == this->first->data)
+    else if (target == first->data)
     {
-	Node* tmp{this->first};
-	this->first = this->first->next;
+	Node* tmp{first};
+	first = first->next;
 	delete tmp;
-	this->size--;
+	--size;
     }
-    else // target > this->first->data
+    else // target > first->data
     {
-	Node* ptr{this->first};
-	while ((ptr->next != nullptr) and (target > ptr->next->data))
+	Node* ptr{first};
+	while ((ptr->next != nullptr) && (target > ptr->next->data))
 	{
 	    ptr = ptr->next;
 	}
 
-	if ((ptr->next == nullptr) or (target < ptr->next->data))
+	if ((ptr->next == nullptr) || (target < ptr->next->data))
 	{
 	    throw error;
 	}
@@ -100,41 +100,63 @@ void Sorted_List::rm(int const& target)
 	    Node* tmp{ptr->next};
 	    ptr->next = ptr->next->next;
 	    delete tmp;
-	    this->size--;
+	    --size;
 	}
     }
 }
 
-Sorted_List::Sorted_List()
+int Sorted_List::at(int index)
 {
-    this->first = nullptr;
-}
-
-Sorted_List::Sorted_List(Sorted_List const& other)
-{
-    std::cout << "Copy constructor called. Copying " << other.to_string() << std::endl;
-    if (other.is_empty())
+    std::out_of_range error{"Sorted_List::at: out of range"};
+    if (index < 0)
     {
-	// Nothing to do
+	throw error;
+    }
+    
+    Node* ptr{first};
+    int current_index{0};
+    while ((ptr != nullptr) && (current_index < index))
+    {
+	ptr = ptr->next;
+	++current_index;
+    }
+    
+    if (ptr == nullptr)
+    {
+	throw error;
     }
     else
     {
-	Node* ptr = other.first;
+	return ptr->data;
+    }
+}
+
+Sorted_List::Sorted_List() : first{nullptr} {}
+
+// Copy constructor
+Sorted_List::Sorted_List(Sorted_List const& other)
+{
+    std::cout << "Copy constructor called. Copying " << other.to_string() << std::endl;
+    if (! other.is_empty())
+    {
+	Node* ptr{other.first};
 	while (ptr != nullptr)
 	{
-	    this->add(ptr->data);
+	    add(ptr->data);
 	    ptr = ptr->next;
 	}
     }
 }
 
+// Move constructor
 Sorted_List::Sorted_List(Sorted_List&& other)
 {
     std::cout << "Move constructor called. Moving " << other.to_string() << std::endl;
-    this->first = other.first;
+    first = other.first;
     other.first = nullptr;
 }
 
+// Copy assignment
 Sorted_List& Sorted_List::operator=(Sorted_List const& other)
 {
     std::cout << "Copy assignment called. Copying " << other.to_string() << std::endl;
@@ -143,6 +165,7 @@ Sorted_List& Sorted_List::operator=(Sorted_List const& other)
     return *this;
 }
 
+// Move assignment
 Sorted_List& Sorted_List::operator=(Sorted_List&& other)
 {
     std::cout << "Move assignment called. Moving " << other.to_string() << std::endl;
@@ -152,8 +175,8 @@ Sorted_List& Sorted_List::operator=(Sorted_List&& other)
 
 Sorted_List::~Sorted_List()
 {
-    while (not this->is_empty())
+    while (!is_empty())
     {
-	this->rm(this->first->data);
+	rm(first->data);
     }
 }
