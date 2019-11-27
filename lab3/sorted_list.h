@@ -1,16 +1,17 @@
+#pragma once
 #include <string>
 
 class Sorted_List
 {
 public:
     bool is_empty() const;
-    int size{0};
     
     std::string to_string() const;
     void add(int new_data);
     void rm (int target);
 
-    int at(int index);
+    int at(int index) const;
+    int size() const;
 
     Sorted_List();
     Sorted_List(Sorted_List const& other);
@@ -28,4 +29,5 @@ private:
 	Node* next{nullptr};
     };
     Node* first{};
+    int list_size{0};
 };

@@ -9,7 +9,7 @@ TEST_CASE("Creating an empty list") {
     Sorted_List l{};
 
     REQUIRE(l.is_empty());
-    REQUIRE(l.size == 0);
+    REQUIRE(l.size() == 0);
     REQUIRE(l.to_string() == "nullptr");
 }
 
@@ -18,23 +18,23 @@ TEST_CASE("Inserting some numbers into an empty list and printing it")
     Sorted_List l{};
     REQUIRE(l.is_empty());
     REQUIRE(l.to_string() == "nullptr");
-    REQUIRE(l.size == 0);
+    REQUIRE(l.size() == 0);
     
     l.add(5);
     REQUIRE(l.to_string() == "5->nullptr");
-    REQUIRE(l.size == 1);
+    REQUIRE(l.size() == 1);
     
     l.add(3);
     REQUIRE(l.to_string() == "3->5->nullptr");
-    REQUIRE(l.size == 2);
+    REQUIRE(l.size() == 2);
 
     l.add(9);
     REQUIRE(l.to_string() == "3->5->9->nullptr");
-    REQUIRE(l.size == 3);
+    REQUIRE(l.size() == 3);
     
     l.add(7);
     REQUIRE(l.to_string() == "3->5->7->9->nullptr");
-    REQUIRE(l.size == 4);
+    REQUIRE(l.size() == 4);
 }
 
 TEST_CASE("Sorted_List::rm and Sorted_List::at")
@@ -57,7 +57,7 @@ TEST_CASE("Sorted_List::rm and Sorted_List::at")
 
     l.rm(5);
     REQUIRE(l.to_string() == "3->7->9->nullptr");
-    REQUIRE(l.size == 3);
+    REQUIRE(l.size() == 3);
     
     REQUIRE(l.at(2) == 9);
 
@@ -65,16 +65,16 @@ TEST_CASE("Sorted_List::rm and Sorted_List::at")
     
     l.rm(3);
     REQUIRE(l.to_string() == "7->9->nullptr");
-    REQUIRE(l.size == 2);
+    REQUIRE(l.size() == 2);
     
     l.rm(9);
     REQUIRE(l.to_string() == "7->nullptr");
-    REQUIRE(l.size == 1);
+    REQUIRE(l.size() == 1);
     
     l.rm(7);
     REQUIRE(l.is_empty());
     REQUIRE(l.to_string() == "nullptr");
-    REQUIRE(l.size == 0);
+    REQUIRE(l.size() == 0);
 }
 
 Sorted_List gen_list(bool even)

@@ -38,7 +38,7 @@ std::string Sorted_List::Node::to_string() const
 
 void Sorted_List::add(int new_data)
 {
-    ++size;
+    ++list_size;
     if (is_empty())
     {
 	first = new Node{new_data};
@@ -81,7 +81,7 @@ void Sorted_List::rm(int target)
 	Node* tmp{first};
 	first = first->next;
 	delete tmp;
-	--size;
+	--list_size;
     }
     else // target > first->data
     {
@@ -100,12 +100,12 @@ void Sorted_List::rm(int target)
 	    Node* tmp{ptr->next};
 	    ptr->next = ptr->next->next;
 	    delete tmp;
-	    --size;
+	    --list_size;
 	}
     }
 }
 
-int Sorted_List::at(int index)
+int Sorted_List::at(int index) const
 {
     std::out_of_range error{"Sorted_List::at: out of range"};
     if (index < 0)
@@ -129,6 +129,11 @@ int Sorted_List::at(int index)
     {
 	return ptr->data;
     }
+}
+
+int Sorted_List::size() const
+{
+    return list_size;
 }
 
 Sorted_List::Sorted_List() : first{nullptr} {}
