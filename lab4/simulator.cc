@@ -1,8 +1,11 @@
 #include "simulator.h"
 #include <cmath>
+#include <iostream>
+#include <iomanip>
 
 //----------------------------------------------------------------------
-component::component(connection& A, connection& B) : a{A}, b{B} { }
+component::component(std::string const& name, connection& A, connection& B)
+    : name{name}, a{A}, b{B} { }
 double component::voltage() const
 {
     return std::abs(a.voltage - b.voltage);
@@ -10,8 +13,8 @@ double component::voltage() const
 //----------------------------------------------------------------------
 
 //----------------------------------------------------------------------
-battery::battery(connection& A, connection& B, double base_voltage)
-    : component{A, B}, base_voltage{base_voltage} { }
+battery::battery(std::string const& name, connection& A, connection& B, double base_voltage)
+    : component{name, A, B}, base_voltage{base_voltage} { }
 
 double battery::current() const
 {
@@ -25,8 +28,8 @@ void battery::update(double time_step)
 //----------------------------------------------------------------------
 
 //----------------------------------------------------------------------
-resistor::resistor(connection& A, connection& B, double resistance)
-    : component{A, B}, resistance{resistance} { }
+resistor::resistor(std::string const& name, connection& A, connection& B, double resistance)
+    : component{name, A, B}, resistance{resistance} { }
 
 double resistor::current() const
 {
@@ -53,8 +56,8 @@ void resistor::update(double time_step)
 //----------------------------------------------------------------------
 
 //----------------------------------------------------------------------
-capacitor::capacitor(connection& A, connection& B, double capacitance)
-    : component{A, B}, capacitance{capacitance}, charge{0} { }
+capacitor::capacitor(std::string const& name, connection& A, connection& B, double capacitance)
+    : component{name, A, B}, capacitance{capacitance}, charge{0} { }
 
 double capacitor::current() const
 {
@@ -82,5 +85,48 @@ void capacitor::update(double time_step)
 //----------------------------------------------------------------------
 
 //----------------------------------------------------------------------
-void circuit::simulate(int iterations, int lines, double time_step) { }
+void circuit::add_bat(std::string const& name, connection& A, connection& B, double base_voltage)
+{
+    components.push_back(new battery(name, A, B, base_voltage));
+}
+
+void circuit::add_res(std::string const& name, connection& A, connection& B, double resistance)
+{
+    components.push_back(new resistor(name, A, B, resistance));
+}
+void circuit::add_cap(std::string const& name, connection& A, connection& B, double capacitance)
+{
+    components.push_back(new capacitor(name, A, B, capacitance));
+}
+
+void circuit::simulate(int iterations, int lines, double time_step)
+{
+    for (component* cpn : components)
+    {
+	std::cout << std::setw(12) << cpn->name;
+    }
+    std::cout << std::endl;
+    
+    for (component* cpn : components)
+    {
+	std::cout << std::setw(6) << "Volt" << std::setw(6) << "Curr";
+    }
+    std::cout << std::endl;
+
+    std::cout << std::setprecision(2) << std::fixed;
+    for (int i = 0; i < iterations; ++i)
+    {
+	for (component* cpn : components)
+	{
+	    cpn->update(time_step);
+	    if (i % (iterations / lines) == 0)
+	    {
+		std::cout << std::setw(6) << cpn->voltage()
+			  << std::setw(6) << cpn->current();
+	    }
+	}
+	if (i % (iterations / lines) == 0)
+	    std::cout << std::endl;
+    }
+}
 //----------------------------------------------------------------------

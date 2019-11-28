@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <string>
 
 struct connection
 {
@@ -11,9 +12,11 @@ struct connection
 class component
 {
 public:
-    connection& a, b;
+    std::string name;
+    connection& a;
+    connection& b;
 
-    component(connection& A, connection& B);
+    component(std::string const& name, connection& A, connection& B);
     
     double voltage() const;
     virtual double current() const = 0;
@@ -26,7 +29,7 @@ class battery : public component
 public:
     double base_voltage;
 
-    battery(connection& A, connection& B, double base_voltage);
+    battery(std::string const& name, connection& A, connection& B, double base_voltage);
 
     double current() const override;
 
@@ -38,7 +41,7 @@ class resistor : public component
 public:
     double resistance;
 
-    resistor(connection& A, connection& B, double resistance);
+    resistor(std::string const& name, connection& A, connection& B, double resistance);
 
     double current() const override;
 
@@ -50,7 +53,7 @@ class capacitor : public component
 public:
     double capacitance, charge;
     
-    capacitor(connection& A, connection& B, double capacitance);
+    capacitor(std::string const& name, connection& A, connection& B, double capacitance);
 
     double current() const override;
 
@@ -61,8 +64,11 @@ public:
 class circuit
 {
 public:
-    std::vector<connection> connections;
-    std::vector<component> components;
+    void add_bat(std::string const& name, connection& A, connection& B, double base_voltage);
+    void add_res(std::string const& name, connection& A, connection& B, double resistance);
+    void add_cap(std::string const& name, connection& A, connection& B, double capacitance);
 
     void simulate(int iterations, int lines, double time_step);
+private:
+    std::vector<component*> components;
 };
