@@ -1,5 +1,10 @@
 #pragma once
 #include <string>
+// TODO Complementary work needed: missing header guard
+// at(int index) should also be const since it does not change the Sorted_List
+//size should be private
+
+// Done
 
 class Sorted_List
 {
