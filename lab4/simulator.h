@@ -20,6 +20,8 @@ public:
 
     virtual void update(double time_step) = 0;
 
+    virtual ~component() = default;
+    
 protected:
     std::string name;
     connection& a;

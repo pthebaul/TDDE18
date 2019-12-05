@@ -2,7 +2,6 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
-#include <sstream>
 
 int main(int argc, char* argv[])
 {
@@ -12,29 +11,36 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    std::stringstream ss;
-    for (int i = 1; i < argc; ++i)
-    {
-        ss << argv[i] << " ";
-    }
-
     int iterations;
-    ss >> iterations;
-
     int lines;
-    ss >> lines;
-
     double time_step;
-    ss >> time_step;
-
     double base_voltage;
-    ss >> base_voltage;
 
-    if (ss.fail())
+    try
+    {
+	iterations   = std::stoi(argv[1]);
+	lines        = std::stoi(argv[2]);
+	time_step    = std::stod(argv[3]);
+	base_voltage = std::stod(argv[4]);
+    }
+    catch (std::invalid_argument& e)
     {
         std::cout << "Type error: exit 2" << std::endl;
         return 2;
     }
+    catch (std::out_of_range& e)
+    {
+        std::cout << "Out of range error: exit 3" << std::endl;
+        return 3;
+    }
+    catch (std::exception& e)
+    {
+        std::cout << "Unknown error: exit 4" << std::endl;
+        return 4;
+    }
+
+    std::cout << "Iter: " << iterations << "; Lines: " << lines
+	      << "; Step: " << time_step << "; Voltage: " << base_voltage << std::endl << std::endl;
     //--------------------------------------------------------------------
     {
         connection p, n, r124, r23;
