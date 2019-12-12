@@ -6,6 +6,7 @@
 #include <vector>
 #include <iterator>
 #include <algorithm>
+#include <cctype>
 
 using namespace std;
 
@@ -89,30 +90,87 @@ int main(int argc, char* argv[])
     
     // Clean words : leading, trailing, 's
     vector<string> cleaned_words{};
-    auto clean_word = [](string s)
+    auto cleaning = [](string s)
     {
 	string::size_type fno_pos{s.find_first_not_of("\"'(")};
 	s = s.substr(fno_pos);
 	string::size_type lno_pos{s.find_last_not_of("!?;,:.\"')")};
 	s = s.substr(0, lno_pos+1);
-	string::size_type rf_pos{s.rfind("'s")};
-	s = s.substr(0, rf_pos);
-	cout << s << endl;
+	if ((s.size() >= 2) && (s.substr(s.size() - 2) == "'s"))
+	{
+	    s = s.substr(0, s.size() - 2);
+	}
 	return s;
     };
 
-    transform(potential_words.begin(), potential_words.end(), back_inserter(cleaned_words), clean_word);
+    transform(potential_words.begin(), potential_words.end(), back_inserter(cleaned_words), cleaning);
     
     
     // Keep only valid words : only letters and hyphens, no leading, trailing or consecutive hyphens, no less than 3 characters
+    vector<string> valid_words{};
+    auto is_valid = [](string s)
+    {
+	bool valid{true};
+	if (s.size() < 3)
+	{
+	    valid = false;
+	}
+	else if (s.find_first_not_of("qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM-") != string::npos)
+	{
+	    valid = false;
+	}
+	else if (s.find_first_of("--") != string::npos)
+	{
+	    valid = false;
+	}
+	else if (s.front() == '-' || s.back() == '-')
+	{
+	    valid = false;
+	}
+	return valid;
+    };
+    copy_if(cleaned_words.begin(), cleaned_words.end(), back_inserter(valid_words), is_valid);
 
+    auto str_lower = [](string s)
+    {
+	string result{s};
+	transform(s.begin(), s.end(), result.begin(), [](char c) { return tolower(c); });
+	return result;
+    };
+    transform(valid_words.begin(), valid_words.end(), valid_words.begin(), str_lower);
+    
     // -a   : Sort alphabetically (ascending), format by left-aligned word, right-aligned frequency
     // -f   : Sort by decreasing frequency,    format by right-aligned word, right-aligned frequency
     // -o N : Sort by occurence in the file, with newlines to prevent lines getting bigger than N
 
-      if (strcmp(argv[2], "-o") != 0)
+    if (strcmp(argv[2], "-o") != 0)
     {
 	map<string, int> m;
+	auto add_to_m = [&m](string s)
+	{
+	    m[s]++;
+	};
+	for_each(valid_words.begin(), valid_words.end(), add_to_m);
+
+	vector<pair<string, int>> vect{};
+	copy(m.begin(), m.end(), back_inserter(vect));
+
+	auto compare = [](pair<string, int> const& l, pair<string, int> const& r)
+	{
+	    return l.second > r.second;
+	};
+	sort(vect.begin(), vect.end(), compare);	    
+	
+
+	
+	auto print = [](pair<string, int> x)
+	{
+	    cout << x.first << ':' << x.second << endl;
+	};
+	
+	for_each(vect.begin(), vect.end(), print);
+	cout << endl;
+	for_each(m.begin(), m.end(), print);
 	
     }
     return 0;
