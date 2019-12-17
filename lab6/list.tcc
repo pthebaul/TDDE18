@@ -98,3 +98,14 @@ typename List<Data>::Iterator& List<Data>::Iterator::operator++()
     ptr = ptr->next;
     return *this;
 }
+
+template <typename Data>
+std::ostream& operator<<(std::ostream& os, List<Data> const& list)
+{
+    for ( auto elt : list )
+    {
+	os << elt << " ";
+    }
+    os << std::endl;
+    return os;
+}
