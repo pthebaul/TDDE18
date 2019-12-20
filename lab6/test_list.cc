@@ -9,80 +9,80 @@ using namespace std;
 int main()
 {
 #if SOLUTION == 0
-  
-  // Minimal code to use the list
 
-  // You are recommended to start with your template implementation
-  // and convert this code to instantiate it.
-  // Move on to the iterator once it compiles.
+    // Minimal code to use the list
 
-  List list;
-  decltype(list)::value_type number;
-  
-  cout << "Enter numbers, finish by Ctrl-D " << endl;  
-  while (cin >> number)
-  {
-    list.insert(number);
-  }
-  
-#else
-  // example of using the list with integers
-  {
-    List<int> list;
+    // You are recommended to start with your template implementation
+    // and convert this code to instantiate it.
+    // Move on to the iterator once it compiles.
+
+    List list;
     decltype(list)::value_type number;
-    
-    cout << "Enter numbers, finish by Ctrl-D " << endl;  
+
+    cout << "Enter numbers, finish by Ctrl-D " << endl;
     while (cin >> number)
     {
-      list.insert(number);
+        list.insert(number);
     }
 
-    for ( decltype(list)::Iterator it{ list.begin() };
-          it != list.end(); ++it)
+#else
+    // example of using the list with integers
     {
-      cout << *it << " ";
-    }
-    cout << endl;
+        List<int> list;
+        decltype(list)::value_type number;
 
-    for ( auto i : list )
-    {
-      cout << i << " ";
-    }
-    cout << endl;
+        cout << "Enter numbers, finish by Ctrl-D " << endl;
+        while (cin >> number)
+        {
+            list.insert(number);
+        }
 
-    cout << list << endl;
-  }
+        for ( decltype(list)::Iterator it{ list.begin() };
+              it != list.end(); ++it)
+        {
+            cout << *it << " ";
+        }
+        cout << endl;
 
-  cin.clear();
-  
-  // example of using the list with std::string
-  // ( notice the overwhelming similarity to above code? )
-  {
-    List<std::string> list;
-    decltype(list)::value_type word;
-    
-    cout << "Enter words, finish by Ctrl-D " << endl;  
-    while (cin >> word)
-    {
-      list.insert(word);
+        for ( auto i : list )
+        {
+            cout << i << " ";
+        }
+        cout << endl;
+
+        cout << list << endl;
     }
 
-    for ( decltype(list)::Iterator it{ list.begin() };
-          it != list.end(); ++it)
+    cin.clear();
+
+    // example of using the list with std::string
+    // ( notice the overwhelming similarity to above code? )
     {
-      cout << *it << " ";
+        List<std::string> list;
+        decltype(list)::value_type word;
+
+        cout << "Enter words, finish by Ctrl-D " << endl;
+        while (cin >> word)
+        {
+            list.insert(word);
+        }
+
+        for ( decltype(list)::Iterator it{ list.begin() };
+              it != list.end(); ++it)
+        {
+            cout << *it << " ";
+        }
+        cout << endl;
+
+        for ( auto w : list )
+        {
+            cout << w << " ";
+        }
+        cout << endl;
+
+        cout << list << endl;
     }
-    cout << endl;
-    
-    for ( auto w : list )
-    {
-      cout << w << " ";
-    }
-    cout << endl;
-    
-    cout << list << endl;
-  }
 #endif
-  
-  return 0;
+
+    return 0;
 }

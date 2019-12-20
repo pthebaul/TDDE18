@@ -8,57 +8,57 @@ template <typename Data>
 class List
 {
 public:
-  List();
-  ~List() { delete first; }
+    List();
+    ~List() { delete first; }
 
-  void insert(Data const& d);
-  
-  List(List const&);
-  List(List&&);
-  List& operator=(List const&);
-  List& operator=(List&&);
+    void insert(Data const& d);
 
-  class Iterator
-  {
-  public:
-      Iterator(typename List<Data>::Link*);
-      Iterator& operator++();
-      Data operator*() const;
-      bool operator!=(Iterator const&) const;
-  private:
-      typename List<Data>::Link* ptr;
-  };
+    List(List const&);
+    List(List&&);
+    List& operator=(List const&);
+    List& operator=(List&&);
 
-  Iterator begin() const;
-  Iterator end() const;
-    
+    class Iterator
+    {
+    public:
+        Iterator(typename List<Data>::Link*);
+        Iterator& operator++();
+        Data operator*() const;
+        bool operator!=(Iterator const&) const;
+    private:
+        typename List<Data>::Link* ptr;
+    };
+
+    Iterator begin() const;
+    Iterator end() const;
+
 private:
 
-  class Link
-  {
-  public:
+    class Link
+    {
+    public:
     Link(Data const& d, Link* n)
-      : data(d), next(n) {}
-    ~Link() { delete next; }
-    
-    friend class List;
+        : data(d), next(n) {}
+        ~Link() { delete next; }
 
-    static Link* clone(Link const*);
-    
-  private:
-    
-    Data data;
-    Link* next;
-  };
-  
-  Link* first;
-  
+        friend class List;
+
+        static Link* clone(Link const*);
+
+    private:
+
+        Data data;
+        Link* next;
+    };
+
+    Link* first;
+
 public:
 
-  using value_type = Data;
+    using value_type = Data;
 
-  // Suitable place to add things...
-  
+    // Suitable place to add things...
+
 };
 
 template <typename Data>

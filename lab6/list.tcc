@@ -4,7 +4,7 @@
 template <typename Data>
 void List<Data>::insert(Data const& d)
 {
-  first = new Link(d, first);
+    first = new Link(d, first);
 }
 
 //-----------------------------------------------------//
@@ -12,61 +12,61 @@ void List<Data>::insert(Data const& d)
 template <typename Data>
 typename List<Data>::Link* List<Data>::Link::clone(Link const* dolly)
 {
-  if ( dolly != nullptr )
-    return new Link(dolly->data, clone(dolly->next));
-  else
-    return nullptr;
+    if ( dolly != nullptr )
+        return new Link(dolly->data, clone(dolly->next));
+    else
+        return nullptr;
 }
 
 template <typename Data>
 List<Data>::List() : first(nullptr)
 {
-  std::clog << "***Default construction" << std::endl;
+    std::clog << "***Default construction" << std::endl;
 }
 
 template <typename Data>
 List<Data>::List(List const& l)
 {
-  std::clog << "***Copy construction" << std::endl;
-  first = Link::clone(l.first);
+    std::clog << "***Copy construction" << std::endl;
+    first = Link::clone(l.first);
 }
 
 template <typename Data>
 List<Data>::List(List&& l)
 {
-  std::clog << "***Move construction" << std::endl;
-  first = l.first;
-  l.first = nullptr;
+    std::clog << "***Move construction" << std::endl;
+    first = l.first;
+    l.first = nullptr;
 }
 
 template <typename Data>
 List<Data>& List<Data>::operator=(List const& rhs)
 {
-  std::clog << "***Copy assignment" << std::endl;
-  if (&rhs != this)
-  {
-    List copy(rhs);
-    std::swap(first, copy.first);
-  }
-  return *this;
+    std::clog << "***Copy assignment" << std::endl;
+    if (&rhs != this)
+    {
+        List copy(rhs);
+        std::swap(first, copy.first);
+    }
+    return *this;
 }
 
-template <typename Data>
-List<Data>& List<Data>::operator=(List&& rhs)
-{
-  std::clog << "***Move assignment" << std::endl;
-  if (&rhs != this)
-  {
-    std::swap(first, rhs.first);
-  }
-  return *this;
-}
+    template <typename Data>
+    List<Data>& List<Data>::operator=(List&& rhs)
+    {
+        std::clog << "***Move assignment" << std::endl;
+        if (&rhs != this)
+        {
+            std::swap(first, rhs.first);
+        }
+        return *this;
+    }
 
-//-----------------------------------------------------//
-// Iterator implementation
+    //-----------------------------------------------------//
+    // Iterator implementation
 
-template <typename Data>
-List<Data>::Iterator::Iterator(typename List<Data>::Link* ptr) : ptr{ptr} {}
+        template <typename Data>
+        List<Data>::Iterator::Iterator(typename List<Data>::Link* ptr) : ptr{ptr} {}
 
 template <typename Data>
 typename List<Data>::Iterator List<Data>::begin() const
@@ -104,7 +104,7 @@ std::ostream& operator<<(std::ostream& os, List<Data> const& list)
 {
     for ( auto elt : list )
     {
-	os << elt << " ";
+        os << elt << " ";
     }
     os << std::endl;
     return os;
